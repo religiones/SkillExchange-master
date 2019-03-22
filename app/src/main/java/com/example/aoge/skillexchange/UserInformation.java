@@ -1,10 +1,12 @@
 package com.example.aoge.skillexchange;
 
+import java.io.Serializable;
+
 /**
  * Created by dell on 2019/3/21.
  */
 
-public class UserInformation {
+public class UserInformation implements Serializable {
     private String userName;
 
     private String email;

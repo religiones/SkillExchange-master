@@ -141,6 +141,7 @@ public class LoginActivity extends CheckPermissionsActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("AccountNumber", email);  //set the parameter.
                 params.put("Password", password);
+                params.put("Location", location);
                 return params;
             }
         };
@@ -223,7 +224,7 @@ public class LoginActivity extends CheckPermissionsActivity {
                     Log.i("currentLocation", "currentLat : " + amapLocation.getCity()+amapLocation.getAddress());
 //                    System.out.println(amapLocation.getCity());
 //                    Toast.makeText(getApplicationContext(),
-//                            amapLocation.getCity(), Toast.LENGTH_LONG)
+//                            location, Toast.LENGTH_LONG)
 //                            .show();
                     location = amapLocation.getCity();
                     amapLocation.getAccuracy();//获取精度信息
