@@ -65,7 +65,7 @@ public class LoginActivity extends CheckPermissionsActivity {
             Toast.makeText(getApplicationContext(),
                     R.string.enter_credentials, Toast.LENGTH_LONG)
                     .show();
-        }else if(emailFormat(email)){
+        }else if(!emailFormat(email)){
             Toast.makeText(getApplicationContext(),
                     R.string.enter_emailcredentials, Toast.LENGTH_LONG)
                     .show();

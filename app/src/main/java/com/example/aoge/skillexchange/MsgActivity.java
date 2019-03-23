@@ -1,21 +1,26 @@
 package com.example.aoge.skillexchange;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MsgActivity extends Activity {
+    private UserInformation user;
     private ListView msgListView;
     private EditText inputText;
     private Button send;
     private MsgAdapter adapter;
+    private TextView Uname;
+    private String email;
 
     private List<Msg> msgList = new ArrayList<Msg>();
 
@@ -24,6 +29,14 @@ public class MsgActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_msg);
+
+        Intent intent = getIntent();
+        user = (UserInformation) intent.getSerializableExtra("key");
+        Uname = (TextView)findViewById(R.id.txt_msg_username);
+        Uname.setText(user.getUserName());
+        email = user.getEmail();
+
+
         initMsgs(); // 初始化消息数据
         adapter = new MsgAdapter(MsgActivity.this, R.layout.item_msg_show, msgList);
         inputText = (EditText) findViewById(R.id.input_text);
