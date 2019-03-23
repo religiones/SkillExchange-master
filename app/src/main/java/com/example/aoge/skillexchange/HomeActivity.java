@@ -80,8 +80,13 @@ public class HomeActivity extends Fragment {
                                                 @Override
                                                 public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 
-                                                    Bundle bundle = new Bundle();
-                                                    System.out.println(arg2);
+                                                    UserInformation user = new UserInformation((String)list.get(arg2).get("username"),(String)list.get(arg2).get("email"),(String)list.get(arg2).get("gender"),(String)list.get(arg2).get("location"),(String)list.get(arg2).get("can"),(String)list.get(arg2).get("want"));
+                                                    Intent intent = new Intent(getView().getContext(), DetailActivity.class);
+                                                    // 放入需要传递的对象
+                                                    intent.putExtra("key", user);
+                                                    // 启动意图
+                                                    startActivity(intent);
+
 //                                          bundle.putInt("photo", username[arg2]);
 //                                          bundle.putString("message", message[arg2]);
 //                                          Intent intent = new Intent();
@@ -141,18 +146,15 @@ public class HomeActivity extends Fragment {
                                 JSONObject subObiect = new JSONObject();
                                 subObiect = (JSONObject)jsonArray.get(i);
                                 map.put("username",subObiect.getString("username"));
+                                map.put("email",subObiect.getString("email"));
+                                map.put("gender",subObiect.getString("gender"));
+                                map.put("location",subObiect.getString("location"));
                                 map.put("can",subObiect.getString("can"));
                                 map.put("want",subObiect.getString("want"));
                                 list.add(map);
 //                                System.out.println(map);
 //                                System.out.println(list);
 
-                                username = subObiect.getString("username");
-                                email = subObiect.getString("email");
-                                gender = subObiect.getString("gender");
-                                location = subObiect.getString("location");
-                                can = subObiect.getString("can");
-                                want = subObiect.getString("want");
 //                                System.out.println(username+email+gender+location+can+want);
                             }
                             addViewItem();

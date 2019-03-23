@@ -23,6 +23,20 @@ public class UserInformation implements Serializable {
 
     private String headPicture;
 
+    public UserInformation(){
+        super();
+    }
+
+    public UserInformation(String username,String email,String gender, String location, String can,String want){
+        super();
+        this.userName = username;
+        this.email = email;
+        this.gender = gender;
+        this.location = location;
+        this.can = can;
+        this.want = want;
+    }
+
     public String getUserName() {
         return userName;
     }
