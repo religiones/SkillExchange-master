@@ -1,9 +1,11 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_homeskill"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
-    android:background="@color/white">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="3dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -38,7 +40,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txt_username"
+                    android:id="@+id/txt_h_username"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
                     android:fontFamily="casual"
@@ -48,7 +50,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txt_mainskill"
+                    android:id="@+id/txt_h_mainskill"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
                     android:fontFamily="casual"
@@ -58,7 +60,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txt_mainwant"
+                    android:id="@+id/txt_h_mainwant"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
                     android:fontFamily="casual"
@@ -71,4 +73,4 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-</RelativeLayout>
+</LinearLayout>
