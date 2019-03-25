@@ -1,12 +1,33 @@
 package com.example.aoge.skillexchange;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.io.Serializable;
+import java.net.Socket;
 
 /**
  * Created by dell on 2019/3/21.
  */
 
 public class UserInformation implements Serializable {
+    public static int permission = 0;
+    public static String userinformation = null;
+    public static String uName = null;
+    public static String gedr = null;
+    public static String loan = null;
+    public static String ucan = null;
+    public static String uwant = null;
+    public static int firstShow = 0;
+
+    public static String ph = null;
+    public static String context = null;
+
+    public static String HOST = "169.254.26.233";//服务器地址
+    public static int PORT = 8800;//连接端口号
+    public static Socket socket = null;
+    public static BufferedReader in = null;
+    public static PrintWriter out = null;
+
     private String userName;
 
     private String email;

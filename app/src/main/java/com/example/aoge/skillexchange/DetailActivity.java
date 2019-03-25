@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class DetailActivity extends Activity {
+public class DetailActivity extends BaseActivity {
 
     private UserInformation user;
     private TextView un;

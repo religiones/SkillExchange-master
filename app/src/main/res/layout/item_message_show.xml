@@ -4,30 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:divider="@drawable/divider"
+    android:showDividers="end"
     android:padding="3dp">
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        app:cardBackgroundColor="@color/blue_show"
-
-        app:cardCornerRadius="10dp">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/hint1">
             <ImageView
-                android:id="@+id/img_show1"
+                android:id="@+id/img_mess_show"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
 
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
@@ -35,42 +26,49 @@
                 />
 
             <LinearLayout
+                android:layout_width="280dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_mess_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:fontFamily="casual"
+                    android:text="  Name:Daniel"
+                    android:gravity="center_vertical|left"
+                    android:textColor="#9C27B0"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/txt_mess_lastmessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:fontFamily="casual"
+                    android:text="  Want: Piano Singing Happiness"
+                    android:textColor="#9C27B0"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txt_h_username"
+                    android:id="@+id/txt_mess_time"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="30dp"
                     android:fontFamily="casual"
-                    android:text="  Name:Daniel"
+                    android:text="9.53pm"
+                    android:gravity="center_vertical|right"
                     android:textColor="#9C27B0"
-                    android:textSize="15sp"
+                    android:textSize="9sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txt_h_mainskill"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:fontFamily="casual"
-                    android:text="  Can: Basketball Coding Swimming"
-                    android:textColor="#9C27B0"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txt_h_mainwant"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:fontFamily="casual"
-                    android:text="  Want: Piano Singing Happiness"
-                    android:textColor="#9C27B0"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
             </LinearLayout>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
 
 </LinearLayout>

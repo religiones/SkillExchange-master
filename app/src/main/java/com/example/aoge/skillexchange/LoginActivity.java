@@ -1,5 +1,6 @@
 package com.example.aoge.skillexchange;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -43,10 +47,15 @@ public class LoginActivity extends CheckPermissionsActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+//        if(mark == CheckPermissionsActivity.Onr){
+//            loginButton.setClickable(false);
+//        }
         userinformation = new UserInformation();
         inputEmail = findViewById(R.id.email);
         inputPassword = findViewById(R.id.password);
         loginButton = findViewById(R.id.btnLogin);
+        System.out.println(this.getFilesDir());
+
     }
 
     /**
@@ -68,6 +77,10 @@ public class LoginActivity extends CheckPermissionsActivity {
         }else if(!emailFormat(email)){
             Toast.makeText(getApplicationContext(),
                     R.string.enter_emailcredentials, Toast.LENGTH_LONG)
+                    .show();
+        }else if(UserInformation.permission == -1){
+            Toast.makeText(getApplicationContext(),
+                    "Sorry, this App can't work if you don't allow the required permission.", Toast.LENGTH_LONG)
                     .show();
         }else{
             // Avoid multiple clicks on the button
@@ -111,12 +124,18 @@ public class LoginActivity extends CheckPermissionsActivity {
                         try {
                             JSONObject jsonObject = (JSONObject) new JSONObject(response).get("params");  //注③
                             String result = jsonObject.getString("Result");
-                            if (result.equals("success")) {
+                            if (result.equals("successF")) {
+                                saveToFile(LoginActivity.this,email);
                                 Intent intent = new Intent(getApplicationContext(), FirstLoginActivity.class);
                                 intent.putExtra("email",email);
                                 startActivity(intent);
                                 finish();
-                            } else {
+                            } else if(result.equals("success")){
+                                saveToFile(LoginActivity.this,email);
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }else {
                                 Toast.makeText(getApplicationContext(),
                                         "Email or password is wrong!", Toast.LENGTH_LONG)
                                         .show();
@@ -152,6 +171,24 @@ public class LoginActivity extends CheckPermissionsActivity {
         //add the request to queue.
         requestQueue.add(request);
     }
+
+    public void saveToFile(Context context, String email) {
+        UserInformation.userinformation = email;
+        String path = context.getFilesDir() + "/userinfo.txt";
+        UserInformation.ph = context.getFilesDir()+"/";
+//        File dir = context.getFilesDir(); //查找这个应用下的所有文件所在的目录
+        FileWriter writer;
+        try {
+            writer = new FileWriter(path);
+            writer.append(email);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
     /**
      * Check the email format.

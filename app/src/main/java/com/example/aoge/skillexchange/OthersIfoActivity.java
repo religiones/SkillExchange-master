@@ -3,7 +3,7 @@ package com.example.aoge.skillexchange;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class OthersIfoActivity extends AppCompatActivity {
+public class OthersIfoActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

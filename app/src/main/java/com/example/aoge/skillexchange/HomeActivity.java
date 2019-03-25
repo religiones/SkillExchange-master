@@ -58,8 +58,12 @@ public class HomeActivity extends Fragment {
         HomeShowView = (ListView)getView().findViewById(R.id.home_ll_show);
         list = new ArrayList<Map<String, Object>>();
 
-        HomeUserRequest();
-
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HomeUserRequest();
+            }
+        }).start();
     }
 
     //添加ViewItem
@@ -100,17 +104,6 @@ public class HomeActivity extends Fragment {
 
 
 
-
-//        HomeShowView.addView(View.inflate(getContext(), R.layout.item_home_show, null));
-//
-//        View hotelEvaluateView = View.inflate(getContext(), R.layout.item_home_show, null);
-//        addHotelNameView.addView(hotelEvaluateView);
-//
-//        View hotelEvaluateView1 = View.inflate(getContext(), R.layout.item_home_show, null);
-//
-//        addHotelNameView.addView(hotelEvaluateView1);
-
-
     }
 
     /**
@@ -145,6 +138,7 @@ public class HomeActivity extends Fragment {
 
                                 JSONObject subObiect = new JSONObject();
                                 subObiect = (JSONObject)jsonArray.get(i);
+
                                 map.put("username",subObiect.getString("username"));
                                 map.put("email",subObiect.getString("email"));
                                 map.put("gender",subObiect.getString("gender"));
@@ -175,8 +169,8 @@ public class HomeActivity extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-
                 params.put("Mark", "home");  //set the parameter.
+                params.put("Email", UserInformation.userinformation);  //set the parameter.
                 return params;
             }
         };

@@ -39,9 +39,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
 
-public class CheckPermissionsActivity extends AppCompatActivity {
+public class CheckPermissionsActivity extends BaseActivity {
+    public int mark = 0;
+
     /**
      * 需要进行检测的权限数组
      */
@@ -134,10 +137,14 @@ public class CheckPermissionsActivity extends AppCompatActivity {
     private boolean verifyPermissions(int[] grantResults) {
         for (int result : grantResults) {
             if (result != PackageManager.PERMISSION_GRANTED) {
-                finish();
+                Toast.makeText(getApplicationContext(),
+                        "Sorry, this App can't work if you don't allow the required permission.", Toast.LENGTH_LONG)
+                        .show();
+                UserInformation.permission = -1;
                 return false;
             }
         }
+        UserInformation.permission = 0;
         return true;
     }
 

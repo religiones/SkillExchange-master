@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
     private Button btnRegister;
     private EditText inputFullName;
     private EditText inputEmail;
@@ -59,6 +59,10 @@ public class RegisterActivity extends AppCompatActivity {
         }else if(!emailFormat(email)){
             Toast.makeText(getApplicationContext(),
                     R.string.enter_emailcredentials, Toast.LENGTH_LONG)
+                    .show();
+        }else if(UserInformation.permission == -1){
+            Toast.makeText(getApplicationContext(),
+                    "Sorry, this App can't work if you don't allow the required permission.", Toast.LENGTH_LONG)
                     .show();
         }else{
             // Avoid repeated clicks by disabling the button
