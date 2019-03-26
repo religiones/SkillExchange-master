@@ -63,16 +63,20 @@
         <activity android:name=".OthersIfoActivity" />
         <activity android:name=".DetailActivity" />
         <activity android:name=".MsgActivity" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
         </activity>
         <activity android:name=".GetLocationActivity" />
-        <activity android:name=".LaunchActivity" />
+        <activity android:name=".LaunchActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+    </activity>
         <activity android:name=".EditUserIfoActivity" />
-        <activity android:name=".ChooseHeadActivity"></activity>
+        <activity android:name=".ChooseHeadActivity">
+
+        </activity>
     </application>
 
 </manifest>

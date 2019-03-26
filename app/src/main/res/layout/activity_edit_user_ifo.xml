@@ -6,6 +6,28 @@
     android:layout_height="match_parent"
     tools:context="com.example.aoge.skillexchange.EditUserIfoActivity">
 
+    <ImageButton
+        android:id="@+id/imb_edit_back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitXY"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@null"
+        android:onClick="btnBack"
+        android:src="@drawable/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.024"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.039" />
+
     <com.example.aoge.skillexchange.CircleImageButton
         android:id="@+id/img_e_headportrait"
         android:layout_width="80dp"
@@ -17,7 +39,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/man"
+        android:onClick="EselectHead"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

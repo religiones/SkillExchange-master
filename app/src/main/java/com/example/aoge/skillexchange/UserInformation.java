@@ -17,6 +17,8 @@ public class UserInformation implements Serializable {
     public static String loan = null;
     public static String ucan = null;
     public static String uwant = null;
+    public static String head = null;
+
     public static int firstShow = 0;
 
     public static String ph = null;
@@ -48,7 +50,9 @@ public class UserInformation implements Serializable {
         super();
     }
 
-    public UserInformation(String username,String email,String gender, String location, String can,String want){
+    public UserInformation(String username,String email,String gender,
+                           String location, String can,String want,
+                           String headpicture){
         super();
         this.userName = username;
         this.email = email;
@@ -56,6 +60,7 @@ public class UserInformation implements Serializable {
         this.location = location;
         this.can = can;
         this.want = want;
+        this.headPicture = headpicture;
     }
 
     public String getUserName() {

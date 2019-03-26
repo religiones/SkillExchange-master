@@ -29,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.File;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
@@ -68,11 +69,13 @@ public class MeActivity extends Fragment {
         want.setText(UserInformation.uwant);
         location.setText(UserInformation.loan);
 
+
+
         background = (ImageView)getView().findViewById(R.id.imv_me_background);
         background.setImageResource(R.drawable.background);
 
         headImage = (CircleImageButton) getView().findViewById(R.id.img_p_headportrait);
-        headImage.setImageResource(R.drawable.man);
+        headImage.setImageResource(Integer.parseInt(UserInformation.head));
 
         btnLogout = (ImageButton)getView().findViewById(R.id.imb_logout);
         btnLogout.setImageResource(R.drawable.logout);
@@ -85,6 +88,14 @@ public class MeActivity extends Fragment {
                 builder.setMessage("Are you sure to log out?"); builder.setTitle("Tip"); builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    File file = new File(UserInformation.ph+"userinfo.txt");
+                    if(file.exists()){
+                        file.delete();
+                    }else{
+                        Toast.makeText(getActivity(),
+                            "Failed!", Toast.LENGTH_LONG)
+                            .show();
+                    }
                     ActivityCollector.finishAll();
 //                    dialog.dismiss();
 //                    Toast.makeText(getActivity(),

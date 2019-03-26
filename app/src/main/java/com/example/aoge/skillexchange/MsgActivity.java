@@ -1,8 +1,10 @@
 package com.example.aoge.skillexchange;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -11,11 +13,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -27,6 +33,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -49,7 +56,7 @@ public class MsgActivity extends BaseActivity {
     private MsgAdapter adapter;
     private TextView Uname;
     private String email;
-    private String talkto;
+    private String talkto = "happy";
 
 //    public  String HOST = "169.254.26.233";//服务器地址
 //    public  String HOST = "172.19.101.46";//服务器地址106.14.117.91
@@ -68,18 +75,43 @@ public class MsgActivity extends BaseActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_msg);
 
+        UserInformation.ph = this.getFilesDir()+"/";
+
+
+        System.out.println(UserInformation.ph);
+
 //        Intent intent = getIntent();
 //        user = (UserInformation) intent.getSerializableExtra("key");
 //        Uname = (TextView)findViewById(R.id.txt_msg_username);
 //        Uname.setText(user.getUserName());
 //        email = user.getEmail();
 
-        initMsgs(); // 初始化消息数据
+
+
+//                Msg msg1 = new Msg("Hello guy.", Msg.TYPE_RECEIVED, String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+
+//                String.valueOf(Calendar.getInstance().get(Calendar.MINUTE)),"Yes");
+//        msgList.add(msg1);
+//        Msg msg2 = new Msg("Hello. Who is that?", Msg.TYPE_SENT,String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+
+//                String.valueOf(Calendar.getInstance().get(Calendar.MINUTE)),"Yes");
+//        msgList.add(msg2);
+//        Msg msg3 = new Msg("This is Tom. Nice talking to you. ",
+//                Msg.TYPE_RECEIVED,String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+
+//                String.valueOf(Calendar.getInstance().get(Calendar.MINUTE)),"Yes");
+//        msgList.add(msg3);
+
+
+
+
         adapter = new MsgAdapter(MsgActivity.this, R.layout.item_msg_show, msgList);
         inputText = (EditText) findViewById(R.id.input_text);
         send = (Button) findViewById(R.id.send);
         msgListView = (ListView) findViewById(R.id.msg_list_view);
         msgListView.setAdapter(adapter);
+        initMsgs(); // 初始化消息数据
+
+
+
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,22 +148,101 @@ public class MsgActivity extends BaseActivity {
 //                }
 //            }
 //        });
-
+//        SaveToFile();l
         new Thread(runnable).start();
 
     }
 
     private void initMsgs() {
-        Msg msg1 = new Msg("Hello guy.", Msg.TYPE_RECEIVED, String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+
-                String.valueOf(Calendar.getInstance().get(Calendar.MINUTE)),"Yes");
-        msgList.add(msg1);
-        Msg msg2 = new Msg("Hello. Who is that?", Msg.TYPE_SENT,String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+
-                String.valueOf(Calendar.getInstance().get(Calendar.MINUTE)),"Yes");
-        msgList.add(msg2);
-        Msg msg3 = new Msg("This is Tom. Nice talking to you. ",
-                Msg.TYPE_RECEIVED,String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+
-                String.valueOf(Calendar.getInstance().get(Calendar.MINUTE)),"Yes");
-        msgList.add(msg3);
+        String path = MsgActivity.this.getFilesDir()+"/userinfo.txt";
+        File file = new File(path);
+//        FileReader reader;
+//
+//        File file = new File(talkto);
+
+        FileInputStream in = null;
+        BufferedReader reader = null;
+        StringBuilder content = new StringBuilder();
+        try{
+
+            if(!file.exists()){
+
+
+                file.createNewFile();
+
+
+
+            }else {
+
+                in = openFileInput(talkto);//文件名
+
+                reader = new BufferedReader(new InputStreamReader(in));
+                String line = "";
+                String[] sp = null;
+
+                while ((line = reader.readLine()) != null) {
+                    sp = line.split(",,,,,");
+                    Msg msg = new Msg(sp[0], Integer.parseInt(sp[1]), sp[2], sp[3]);
+                    msgList.add(msg);
+                }
+                adapter.notifyDataSetChanged(); // 当有新消息时，刷新ListView中的显示
+                msgListView.setSelection(msgList.size());
+            }
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally {
+            if (reader !=null){
+                try{
+                    reader.close();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+
+//        File file = new File(UserInformation.ph+talkto+".txt");
+//        FileReader fr = null;
+//        BufferedReader br = null;
+//        try {
+//            if(!file.exists()&&!file.isDirectory()){
+//                file.mkdir();
+//                file.createNewFile();
+//            }else{
+//                fr = new FileReader(file);
+//                br = new BufferedReader(fr);
+//                String line = "";
+//                String[] sp = null;
+//                while((line = br.readLine()) != null) {
+//                    sp = line.split(",,,,,");
+//                    Msg msg = new Msg(sp[0],Integer.parseInt(sp[1]),sp[2],sp[3]);
+//                    msgList.add(msg);
+//                }
+//                adapter.notifyDataSetChanged(); // 当有新消息时，刷新ListView中的显示
+//                msgListView.setSelection(msgList.size());
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                br.close();
+//                fr.close();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+
+
+//        Msg msg1 = new Msg("Hello guy.", Msg.TYPE_RECEIVED, String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+
+//                String.valueOf(Calendar.getInstance().get(Calendar.MINUTE)),"Yes");
+//        msgList.add(msg1);
+//        Msg msg2 = new Msg("Hello. Who is that?", Msg.TYPE_SENT,String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+
+//                String.valueOf(Calendar.getInstance().get(Calendar.MINUTE)),"Yes");
+//        msgList.add(msg2);
+//        Msg msg3 = new Msg("This is Tom. Nice talking to you. ",
+//                Msg.TYPE_RECEIVED,String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+
+//                String.valueOf(Calendar.getInstance().get(Calendar.MINUTE)),"Yes");
+//        msgList.add(msg3);
     }
 
 
@@ -237,8 +348,86 @@ public class MsgActivity extends BaseActivity {
     }
 
     public void btnBack(View view){
-//        out.println("exit");
-//        File
+        SaveToFile();
+
+    }
+
+    //重写onKeyDown方法,对按键(不一定是返回按键)监听
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {//当返回按键被按下
+            SaveToFile();
+        }
+        return false;
+    }
+
+    public void SaveToFile() {
+//        FileWriter fw = null;
+//        BufferedWriter bw = null;
+//
+//        try {
+//            File file = new File(UserInformation.ph + talkto + ".txt");
+//
+//            String all;
+//            Toast.makeText(getApplicationContext(),
+//                    "jkhjh", Toast.LENGTH_LONG)
+//                    .show();
+//            fw = new FileWriter(file);
+//
+//            bw = new BufferedWriter(fw);
+//
+//
+//
+//            for(int i=0;i<msgList.size();i++){
+//                all = msgList.get(i).getContent()+",,,,,"+msgList.get(i).getType()+",,,,,"+msgList.get(i).getTheTime()+",,,,,"+msgList.get(i).getRorn();
+//
+//                bw.write(all);
+//                bw.newLine();
+//            }
+////
+////            while (iter.hasNext()) {
+////                all = iter.next().getContent()+",,,,,"+iter.next().getType()+",,,,,"+iter.next().getTheTime()+",,,,,"+iter.next().getRorn();
+////                bw.write(all);
+////                bw.newLine();
+////            }
+//            bw.flush();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                bw.close();
+//                fw.close();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+
+
+
+        FileOutputStream outt = null;
+        BufferedWriter writer = null;
+        try{
+            outt = openFileOutput(talkto, Context.MODE_PRIVATE);
+            writer = new BufferedWriter(new OutputStreamWriter(outt));
+
+            String all="";
+            for(int i=0;i<msgList.size();i++){
+                all = msgList.get(i).getContent()+",,,,,"+msgList.get(i).getType()+",,,,,"+msgList.get(i).getTheTime()+",,,,,"+msgList.get(i).getRorn();
+
+                writer.write(all);
+                writer.newLine();
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally {
+            try{
+                if (writer !=null){
+                    writer.close();
+                }
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
 
     }
 }

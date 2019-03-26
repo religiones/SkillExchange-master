@@ -56,7 +56,6 @@ public class MainActivity extends CheckPermissionsActivity {
                     "Sorry, this App can't work if you don't allow the required permission.", Toast.LENGTH_LONG)
                     .show();
         }else{
-            UserInformation.userinformation = "111";
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -181,6 +180,7 @@ public class MainActivity extends CheckPermissionsActivity {
                             UserInformation.ucan = jsonObject.getString("can");
                             UserInformation.uwant = jsonObject.getString("want");
                             UserInformation.loan = jsonObject.getString("location");
+                            UserInformation.head = jsonObject.getString("headpicture");
                         } catch (JSONException e) {
                             Log.e("TAG", e.getMessage(), e);
                         }
@@ -199,7 +199,7 @@ public class MainActivity extends CheckPermissionsActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
 //                params.put("email", UserInformation.userinformation);  //set the parameter.
-                params.put("email", "111");
+                params.put("email", UserInformation.userinformation);
                 return params;
             }
         };

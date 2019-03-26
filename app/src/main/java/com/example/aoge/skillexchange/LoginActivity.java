@@ -54,7 +54,7 @@ public class LoginActivity extends CheckPermissionsActivity {
         inputEmail = findViewById(R.id.email);
         inputPassword = findViewById(R.id.password);
         loginButton = findViewById(R.id.btnLogin);
-        System.out.println(this.getFilesDir());
+//        System.out.println(this.getFilesDir());
 
     }
 
@@ -175,7 +175,7 @@ public class LoginActivity extends CheckPermissionsActivity {
     public void saveToFile(Context context, String email) {
         UserInformation.userinformation = email;
         String path = context.getFilesDir() + "/userinfo.txt";
-        UserInformation.ph = context.getFilesDir()+"/";
+
 //        File dir = context.getFilesDir(); //查找这个应用下的所有文件所在的目录
         FileWriter writer;
         try {
@@ -207,12 +207,15 @@ public class LoginActivity extends CheckPermissionsActivity {
     }
 
     public void getLocation(View view){
-        //初始化定位
-        mLocationClient = new AMapLocationClient(getApplicationContext());
-        //设置定位回调监听
-        mLocationClient.setLocationListener(mLocationListener);
-        //初始化AMapLocationClientOption对象
-        mLocationOption = new AMapLocationClientOption();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //初始化定位
+                mLocationClient = new AMapLocationClient(getApplicationContext());
+                //设置定位回调监听
+                mLocationClient.setLocationListener(mLocationListener);
+                //初始化AMapLocationClientOption对象
+                mLocationOption = new AMapLocationClientOption();
 
  /* //设置定位场景，目前支持三种场景（签到、出行、运动，默认无场景） 设置了场景就不用配置定位模式等
     option.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.SignIn);
@@ -222,24 +225,26 @@ public class LoginActivity extends CheckPermissionsActivity {
         locationClient.stopLocation();
         locationClient.startLocation();
     }*/
-        // 同时使用网络定位和GPS定位,优先返回最高精度的定位结果,以及对应的地址描述信息
-        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-        //只会使用网络定位
+                // 同时使用网络定位和GPS定位,优先返回最高精度的定位结果,以及对应的地址描述信息
+                mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+                //只会使用网络定位
    /* mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);*/
-        //只使用GPS进行定位
+                //只使用GPS进行定位
     /*mLocationOption.setLocationMode(AMapLocationMode.Device_Sensors);*/
-        // 设置为单次定位 默认为false
+                // 设置为单次定位 默认为false
     /*mLocationOption.setOnceLocation(true);*/
-        //设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。默认连续定位 切最低时间间隔为1000ms
-        mLocationOption.setInterval(1000);
-        //设置是否返回地址信息（默认返回地址信息）
+                //设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。默认连续定位 切最低时间间隔为1000ms
+                mLocationOption.setInterval(1000);
+                //设置是否返回地址信息（默认返回地址信息）
     /*mLocationOption.setNeedAddress(true);*/
-        //关闭缓存机制 默认开启 ，在高精度模式和低功耗模式下进行的网络定位结果均会生成本地缓存,不区分单次定位还是连续定位。GPS定位结果不会被缓存。
+                //关闭缓存机制 默认开启 ，在高精度模式和低功耗模式下进行的网络定位结果均会生成本地缓存,不区分单次定位还是连续定位。GPS定位结果不会被缓存。
     /*mLocationOption.setLocationCacheEnable(false);*/
-        //给定位客户端对象设置定位参数
-        mLocationClient.setLocationOption(mLocationOption);
-        //启动定位
-        mLocationClient.startLocation();
+                //给定位客户端对象设置定位参数
+                mLocationClient.setLocationOption(mLocationOption);
+                //启动定位
+                mLocationClient.startLocation();
+            }
+        }).start();
     }
 
     /**

@@ -69,14 +69,14 @@ public class HomeActivity extends Fragment {
     //添加ViewItem
     private void addViewItem() {
 
-        System.out.println(list);
-
         SimpleAdapter adapter = new SimpleAdapter(getContext(), list,
-                R.layout.item_home_show, new String[] { "username", "can",
-                "want" }, new int[] {
+                R.layout.item_home_show, new String[] {"username", "can",
+                "want" ,"headpicture"}, new int[] {
                 R.id.txt_h_username,
                 R.id.txt_h_mainskill,
-                R.id.txt_h_mainwant });
+                R.id.txt_h_mainwant,
+                R.id.img_h_show1
+                });
         // 给ListView设置适配器
         HomeShowView.setAdapter(adapter);
 
@@ -84,7 +84,8 @@ public class HomeActivity extends Fragment {
                                                 @Override
                                                 public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 
-                                                    UserInformation user = new UserInformation((String)list.get(arg2).get("username"),(String)list.get(arg2).get("email"),(String)list.get(arg2).get("gender"),(String)list.get(arg2).get("location"),(String)list.get(arg2).get("can"),(String)list.get(arg2).get("want"));
+                                                    UserInformation user = new UserInformation((String)list.get(arg2).get("username"),(String)list.get(arg2).get("email"),(String)list.get(arg2).get("gender"),(String)list.get(arg2).get("location"),(String)list.get(arg2).get("can"),
+                                                            (String)list.get(arg2).get("want"),(String)list.get(arg2).get("headpicture"));
                                                     Intent intent = new Intent(getView().getContext(), DetailActivity.class);
                                                     // 放入需要传递的对象
                                                     intent.putExtra("key", user);
@@ -130,7 +131,6 @@ public class HomeActivity extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            String username,email,gender,location,can,want;
                             jsonArray = (JSONArray) new JSONObject(response).get("homeshow");  //注③
 
                             for(int i=0;i<jsonArray.length();i++){
@@ -145,6 +145,8 @@ public class HomeActivity extends Fragment {
                                 map.put("location",subObiect.getString("location"));
                                 map.put("can",subObiect.getString("can"));
                                 map.put("want",subObiect.getString("want"));
+                                map.put("headpicture",subObiect.getString("headpicture"));
+
                                 list.add(map);
 //                                System.out.println(map);
 //                                System.out.println(list);

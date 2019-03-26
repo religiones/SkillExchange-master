@@ -25,14 +25,7 @@ public class ChatActivity extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        textView=(TextView)getActivity().findViewById(R.id.textView1);
-        button=(Button)getActivity().findViewById(R.id.button1);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getActivity(),"Fragment1",Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
 
     }

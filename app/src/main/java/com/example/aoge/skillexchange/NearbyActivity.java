@@ -97,6 +97,8 @@ public class NearbyActivity extends Fragment {
                                 map.put("location",subObiect.getString("location"));
                                 map.put("can",subObiect.getString("can"));
                                 map.put("want",subObiect.getString("want"));
+                                map.put("headpicture",subObiect.getString("headpicture"));
+
                                 list.add(map);
 //                                System.out.println(map);
 //                                System.out.println(list);
@@ -138,10 +140,11 @@ public class NearbyActivity extends Fragment {
     public void addViewItem(){
         SimpleAdapter adapter = new SimpleAdapter(getContext(), list,
                 R.layout.item_nearby_show, new String[] { "username", "can",
-                "want" }, new int[] {
+                "want","headpicture" }, new int[] {
                 R.id.txt_n_username,
                 R.id.txt_n_mainskill,
-                R.id.txt_n_mainwant });
+                R.id.txt_n_mainwant ,
+                R.id.img_n_show1});
         // 给ListView设置适配器
         NearbyShowView.setAdapter(adapter);
 
@@ -149,7 +152,7 @@ public class NearbyActivity extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 
-                UserInformation user = new UserInformation((String)list.get(arg2).get("username"),(String)list.get(arg2).get("email"),(String)list.get(arg2).get("gender"),(String)list.get(arg2).get("location"),(String)list.get(arg2).get("can"),(String)list.get(arg2).get("want"));
+                UserInformation user = new UserInformation((String)list.get(arg2).get("username"),(String)list.get(arg2).get("email"),(String)list.get(arg2).get("gender"),(String)list.get(arg2).get("location"),(String)list.get(arg2).get("can"),(String)list.get(arg2).get("want"),(String)list.get(arg2).get("headpicture"));
                 Intent intent = new Intent(getView().getContext(), DetailActivity.class);
                 // 放入需要传递的对象
                 intent.putExtra("key", user);

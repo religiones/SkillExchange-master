@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class DetailActivity extends BaseActivity {
@@ -15,7 +16,8 @@ public class DetailActivity extends BaseActivity {
     private TextView lo;
     private TextView ca;
     private TextView wa;
-
+    private CircleImageButton headimgbtn;
+    private ImageView gend;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,12 +30,20 @@ public class DetailActivity extends BaseActivity {
         lo=(TextView)findViewById(R.id.txt_d_location_show);
         ca=(TextView)findViewById(R.id.txt_d_can_show);
         wa=(TextView)findViewById(R.id.txt_d_want_show);
+        gend=(ImageView)findViewById(R.id.imv_d_gender);
+        headimgbtn= (CircleImageButton)findViewById(R.id.img_d_headportrait);
         user = (UserInformation) intent.getSerializableExtra("key");
         un.setText(user.getUserName());
         em.setText(user.getEmail());
         lo.setText(user.getLocation());
         ca.setText(user.getCan());
         wa.setText(user.getWant());
+        headimgbtn.setImageResource(Integer.parseInt(user.getheadPicture()));
+        if(user.getGender().equals("male")){
+            gend.setImageResource(R.drawable.man);
+        }else{
+            gend.setImageResource(R.drawable.woman);
+        }
     }
 
     public void Chat(View view){

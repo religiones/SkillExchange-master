@@ -56,10 +56,9 @@ public class EditUserIfoActivity extends BaseActivity {
     private CircleImageButton circleButton;
     private RadioGroup gender;
     private Button ConfirmButton;
-    private String headPicture = null;
-    private Bitmap bitmap = null;
     private EditText edtCan,edtWant;
     private String gd = "male";
+    private String head = UserInformation.head;
 
     private ImageUtils imageUtils = null;
 
@@ -72,8 +71,11 @@ public class EditUserIfoActivity extends BaseActivity {
 //        email = intent.getStringExtra("email");
 
         circleButton = (CircleImageButton) findViewById(R.id.img_e_headportrait);
+        circleButton.setImageResource(Integer.parseInt(UserInformation.head));
         edtCan = (EditText)findViewById(R.id.edt_e_can);
         edtWant = (EditText)findViewById(R.id.edt_e_want);
+        edtCan.setText(UserInformation.ucan);
+        edtWant.setText(UserInformation.uwant);
 
         // 实例化控件
         gender = (RadioGroup) findViewById(R.id.e_sex);
@@ -110,18 +112,10 @@ public class EditUserIfoActivity extends BaseActivity {
                     R.string.enter_credentials, Toast.LENGTH_LONG)
                     .show();
         }else{
-            if(bitmap != null){
-                edit_headPicture(bitmap);
-            }
-            EditIfoRequest(UserInformation.userinformation,gd,cando,wantdo,headPicture);
+            EditIfoRequest(UserInformation.userinformation,gd,cando,wantdo,head);
         }
     }
 
-    private void edit_headPicture(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();//将Bitmap转成Byte[]
-        bitmap.compress(Bitmap.CompressFormat.PNG, 50, baos);//压缩
-        headPicture = Base64.encodeToString(baos.toByteArray(),Base64.DEFAULT);//加密转换成String
-    }
 
     /**
      * link to server to depend whether the username and password are right.
@@ -181,7 +175,7 @@ public class EditUserIfoActivity extends BaseActivity {
                 params.put("Gender", gender);
                 params.put("Can", can);
                 params.put("Want", want);
-//                params.put("HeadPicture", headPicture);
+                params.put("HeadPicture", head);
                 return params;
             }
         };
@@ -193,53 +187,81 @@ public class EditUserIfoActivity extends BaseActivity {
         requestQueue.add(request);
     }
 
-
-
-
-
-
-
-
-
-    /**
-     * 打开本地相册选择图片
-     */
-    public void selectPic(View view){
-        //intent可以应用于广播和发起意图，其中属性有：ComponentName,action,data等
-        Intent intent=new Intent();
-        intent.setType("image/*");
-        //action表示intent的类型，可以是查看、删除、发布或其他情况；我们选择ACTION_GET_CONTENT，系统可以根据Type类型来调用系统程序选择Type
-        //类型的内容给你选择
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        //如果第二个参数大于或等于0，那么当用户操作完成后会返回到本程序的onActivityResult方法
-        startActivityForResult(intent, 1);
+    public void btnBack(View view){
+        finish();
     }
-    /**
-     *把用户选择的图片显示在imageview中
-     */
+
+    public void EselectHead(View view){
+        Intent intent = new Intent(this,ChooseHeadActivity.class);
+        startActivityForResult(intent,0);
+    }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //用户操作完成，结果码返回是-1，即RESULT_OK
-        if(resultCode==RESULT_OK){
-            //获取选中文件的定位符
-            Uri uri = data.getData();
-            Log.e("uri", uri.toString());
-            //使用content的接口
-            ContentResolver cr = this.getContentResolver();
-            try {
-                //获取图片
-                bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
-//                bitmap = BitmapFactory.decodeFile("C:\\Users\\dell\\Pictures\\lovewallpaper\\woman.bmp");
-                circleButton.setImageBitmap(bitmap);
-            } catch (FileNotFoundException e) {
-                Log.e("Exception", e.getMessage(),e);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(data!=null){
+//            Bundle bundle = getIntent().getExtras();
+//            int itemp= bundle.getInt("number");
+            String number = data.getStringExtra("number");
+
+            switch (number) {
+                case "1": {
+                    circleButton.setImageResource(R.drawable.man1);
+                    head = String.valueOf(R.drawable.man1);
+                }
+
+                break;
+                case "2": {
+                    circleButton.setImageResource(R.drawable.man2);
+                    head = String.valueOf(R.drawable.man2);
+                }
+                break;
+                case "3": {
+                    circleButton.setImageResource(R.drawable.man3);
+                    head = String.valueOf(R.drawable.man3);
+                }
+                break;
+                case "4": {
+                    circleButton.setImageResource(R.drawable.man4);
+                    head = String.valueOf(R.drawable.man4);
+                }
+                break;
+                case "5": {
+                    circleButton.setImageResource(R.drawable.man5);
+                    head = String.valueOf(R.drawable.man5);
+                }
+                break;
+                case "6": {
+                    circleButton.setImageResource(R.drawable.woman1);
+                    head = String.valueOf(R.drawable.woman1);
+                }
+                break;
+                case "7": {
+                    circleButton.setImageResource(R.drawable.woman2);
+                    head = String.valueOf(R.drawable.woman2);
+                }
+                break;
+                case "8":{
+                    circleButton.setImageResource(R.drawable.woman3);
+                    head = String.valueOf(R.drawable.woman3);
+                }
+                break;
+                case "9":{
+                    circleButton.setImageResource(R.drawable.woman4);
+                    head = String.valueOf(R.drawable.woman4);
+                }
+                break;
+                case "10":{
+                    circleButton.setImageResource(R.drawable.woman5);
+                    head = String.valueOf(R.drawable.woman5);
+                }
+                break;
             }
-        }else{
-            //操作错误或没有选择图片
-            Log.i("FirstLoginActivtiy", "operation error");
+
         }
-        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode,resultCode,data);
     }
+
+
 
 }
 

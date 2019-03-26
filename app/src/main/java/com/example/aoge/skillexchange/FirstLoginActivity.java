@@ -61,7 +61,8 @@ public class FirstLoginActivity extends BaseActivity {
     private Bitmap bitmap = null;
     private EditText edtCan,edtWant;
     private String gd = "male";
-    private String email = "111";
+    private String email = null;
+    private String head = String.valueOf(R.drawable.man1);
 
 //    private ImageView iv_icon = null;
 
@@ -72,8 +73,8 @@ public class FirstLoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_login);
 
-//        Intent intent = getIntent();
-//        email = intent.getStringExtra("email");
+        Intent intent = getIntent();
+        email = intent.getStringExtra("email");
 
         circleButton = (CircleImageButton) findViewById(R.id.img_headportrait);
         circleButton.setImageResource(R.drawable.man1);
@@ -115,9 +116,6 @@ public class FirstLoginActivity extends BaseActivity {
                     R.string.enter_credentials, Toast.LENGTH_LONG)
                     .show();
         }else{
-            if(bitmap != null){
-                edit_headPicture(bitmap);
-            }
             FirstLoginRequest(email,gd,cando,wantdo,headPicture);
         }
     }
@@ -125,13 +123,6 @@ public class FirstLoginActivity extends BaseActivity {
 
 
 
-
-
-    private void edit_headPicture(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();//将Bitmap转成Byte[]
-        bitmap.compress(Bitmap.CompressFormat.PNG, 50, baos);//压缩
-        headPicture = Base64.encodeToString(baos.toByteArray(),Base64.DEFAULT);//加密转换成String
-    }
 
     /**
      * link to server to depend whether the username and password are right.
@@ -187,7 +178,7 @@ public class FirstLoginActivity extends BaseActivity {
                 params.put("Gender", gender);
                 params.put("Can", can);
                 params.put("Want", want);
-//                params.put("HeadPicture", headPicture);
+                params.put("HeadPicture", head);
                 return params;
             }
         };
@@ -216,21 +207,58 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data){
 //            Bundle bundle = getIntent().getExtras();
 //            int itemp= bundle.getInt("number");
             String number = data.getStringExtra("number");
+
             switch (number) {
-                case "1":
+                case "1": {
                     circleButton.setImageResource(R.drawable.man1);
-                    break;
-                case "2":
+                    head = String.valueOf(R.drawable.man1);
+                }
+
+                break;
+                case "2": {
                     circleButton.setImageResource(R.drawable.man2);
-                    break;
-                case "3":
+                    head = String.valueOf(R.drawable.man2);
+                }
+                break;
+                case "3": {
                     circleButton.setImageResource(R.drawable.man3);
-                    break;
-                case "4":
+                    head = String.valueOf(R.drawable.man3);
+                }
+                break;
+                case "4": {
                     circleButton.setImageResource(R.drawable.man4);
-                    break;
-                case "5":
+                    head = String.valueOf(R.drawable.man4);
+                }
+                break;
+                case "5": {
                     circleButton.setImageResource(R.drawable.man5);
+                    head = String.valueOf(R.drawable.man5);
+                }
+                break;
+                case "6": {
+                    circleButton.setImageResource(R.drawable.woman1);
+                    head = String.valueOf(R.drawable.woman1);
+                }
+                break;
+                case "7": {
+                    circleButton.setImageResource(R.drawable.woman2);
+                    head = String.valueOf(R.drawable.woman2);
+                }
+                break;
+                case "8":{
+                    circleButton.setImageResource(R.drawable.woman3);
+                    head = String.valueOf(R.drawable.woman3);
+            }
+                    break;
+                case "9":{
+                    circleButton.setImageResource(R.drawable.woman4);
+                    head = String.valueOf(R.drawable.woman4);
+            }
+                    break;
+                case "10":{
+                    circleButton.setImageResource(R.drawable.woman5);
+                    head = String.valueOf(R.drawable.woman5);
+            }
                     break;
             }
 

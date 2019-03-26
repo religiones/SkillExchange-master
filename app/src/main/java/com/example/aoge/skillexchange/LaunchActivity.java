@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,7 +34,11 @@ public class LaunchActivity extends BaseActivity {
     }
 
     public void readFromFile(Context context) {
+//        Toast.makeText(getApplicationContext(),
+//                "jkhjh", Toast.LENGTH_LONG)
+//                .show();
         String path = context.getFilesDir()+"/userinfo.txt";
+        UserInformation.ph = context.getFilesDir()+"/";
         File dir = new File(path);
         FileReader reader;
         try {
@@ -54,7 +59,9 @@ public class LaunchActivity extends BaseActivity {
                     finish();
                 }
             }else{
+
                 dir.createNewFile();
+
                 Intent intent = new Intent(context, LoginActivity.class);
                 startActivity(intent);
                 finish();
