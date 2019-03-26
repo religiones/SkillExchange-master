@@ -74,17 +74,14 @@ public class MsgActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_msg);
+        Uname = (TextView)findViewById(R.id.txt_msg_username);
 
         UserInformation.ph = this.getFilesDir()+"/";
-
-
         System.out.println(UserInformation.ph);
 
-//        Intent intent = getIntent();
-//        user = (UserInformation) intent.getSerializableExtra("key");
-//        Uname = (TextView)findViewById(R.id.txt_msg_username);
-//        Uname.setText(user.getUserName());
-//        email = user.getEmail();
+        Intent intent = getIntent();
+        talkto = (String) intent.getStringExtra("talktoemail");
+        Uname.setText((String) intent.getStringExtra("talktoname"));
 
 
 
@@ -154,7 +151,7 @@ public class MsgActivity extends BaseActivity {
     }
 
     private void initMsgs() {
-        String path = MsgActivity.this.getFilesDir()+"/userinfo.txt";
+        String path = MsgActivity.this.getFilesDir()+"/1.txt";
         File file = new File(path);
 //        FileReader reader;
 //
@@ -251,12 +248,8 @@ public class MsgActivity extends BaseActivity {
     Runnable runnableout = new Runnable(){
         @Override
         public void run() {
-//            Map<String, String> params = new HashMap<>();
-//            params.put("Sender", "asdas");  //set the parameter.
-//            params.put("Receiver", "kkkkk");
-//            params.put("Text", inputText.getText().toString());
-//            String outstring = getMapToString(params);
-            out.println("daniel"+",,,,,"+"daniel"+",,,,,"+inputText.getText().toString());
+
+            out.println(UserInformation.userinformation+",,,,,"+UserInformation.userinformation+",,,,,"+inputText.getText().toString());
 //            System.out.println(params);
 //            System.out.println(outstring);
             inputText.setText(""); // 清空输入框中的内容
@@ -324,12 +317,12 @@ public class MsgActivity extends BaseActivity {
                     .getInputStream()));//接收消息的流对象
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(
                     socket.getOutputStream())), true);//发送消息的流对象
-            String information = "daniel"+",,,,,"+"daniel"+",,,,,"+"this is my text";
+            String information = UserInformation.userinformation+",,,,,"+talkto+",,,,,"+"My first message.";
             out.println(information);
             System.out.println("Success");
         } catch (IOException ex) {
             ex.printStackTrace();
-            ShowDialog("连接服务器失败：" + ex.getMessage());
+            ShowDialog("Failed to connect to server：" + ex.getMessage());
         }
     }
 
@@ -337,7 +330,7 @@ public class MsgActivity extends BaseActivity {
      * 如果连接出现异常，弹出AlertDialog！
      */
     public void ShowDialog(String msg) {
-        new AlertDialog.Builder(this).setTitle("通知").setMessage(msg)
+        new AlertDialog.Builder(this).setTitle("Notice").setMessage(msg)
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
 
                     @Override
@@ -347,9 +340,9 @@ public class MsgActivity extends BaseActivity {
                 }).show();
     }
 
-    public void btnBack(View view){
+    public void btnmsgBack(View view){
         SaveToFile();
-
+        finish();
     }
 
     //重写onKeyDown方法,对按键(不一定是返回按键)监听
@@ -361,48 +354,6 @@ public class MsgActivity extends BaseActivity {
     }
 
     public void SaveToFile() {
-//        FileWriter fw = null;
-//        BufferedWriter bw = null;
-//
-//        try {
-//            File file = new File(UserInformation.ph + talkto + ".txt");
-//
-//            String all;
-//            Toast.makeText(getApplicationContext(),
-//                    "jkhjh", Toast.LENGTH_LONG)
-//                    .show();
-//            fw = new FileWriter(file);
-//
-//            bw = new BufferedWriter(fw);
-//
-//
-//
-//            for(int i=0;i<msgList.size();i++){
-//                all = msgList.get(i).getContent()+",,,,,"+msgList.get(i).getType()+",,,,,"+msgList.get(i).getTheTime()+",,,,,"+msgList.get(i).getRorn();
-//
-//                bw.write(all);
-//                bw.newLine();
-//            }
-////
-////            while (iter.hasNext()) {
-////                all = iter.next().getContent()+",,,,,"+iter.next().getType()+",,,,,"+iter.next().getTheTime()+",,,,,"+iter.next().getRorn();
-////                bw.write(all);
-////                bw.newLine();
-////            }
-//            bw.flush();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                bw.close();
-//                fw.close();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-
-
-
         FileOutputStream outt = null;
         BufferedWriter writer = null;
         try{
@@ -431,125 +382,3 @@ public class MsgActivity extends BaseActivity {
 
     }
 }
-
-
-//
-///**
-// * Android Tcp即时通讯客户端
-// */
-//public class MsgActivity extends Activity{
-//    private TextView tv_msg = null;
-//    private EditText ed_msg = null;
-//    private Button btn_send = null;
-//    private static final String HOST = "169.254.26.233";//服务器地址
-//    private static final int PORT = 8800;//连接端口号
-//    private Socket socket = null;
-//    private BufferedReader in = null;
-//    private PrintWriter out = null;
-//
-//    //接收线程发送过来信息，并用TextView追加显示
-//    public Handler mHandler = new Handler() {
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            tv_msg.append((CharSequence) msg.obj);
-//            System.out.println(msg.obj);
-//        }
-//    };
-//
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_msg);
-//
-//        tv_msg = (TextView) findViewById(R.id.txt_msg_username);
-//        ed_msg = (EditText) findViewById(R.id.input_text);
-//        btn_send = (Button) findViewById(R.id.send);
-//
-//        btn_send.setOnClickListener(new Button.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                String msg = ed_msg.getText().toString();
-//                if (socket.isConnected()) {//如果服务器连接
-//                    if (!socket.isOutputShutdown()) {//如果输出流没有断开
-//                        new Thread(runnableout).start();
-//
-//                    }
-//                }
-//            }
-//        });
-//        //启动线程，连接服务器，并用死循环守候，接收服务器发送过来的数据
-//        new Thread(runnable).start();
-//    }
-//
-//    /**
-//     * 连接服务器
-//     */
-//    private void connection() {
-//        try {
-//            socket = new Socket(HOST, PORT);//连接服务器
-//            in = new BufferedReader(new InputStreamReader(socket
-//                    .getInputStream()));//接收消息的流对象
-//            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(
-//                    socket.getOutputStream())), true);//发送消息的流对象
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//            ShowDialog("连接服务器失败：" + ex.getMessage());
-//        }
-//    }
-//
-//    /**
-//     * 如果连接出现异常，弹出AlertDialog！
-//     */
-//    public void ShowDialog(String msg) {
-//        new AlertDialog.Builder(this).setTitle("通知").setMessage(msg)
-//                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                    }
-//                }).show();
-//    }
-//
-//
-//    Runnable runnableout = new Runnable(){
-//        @Override
-//        public void run() {
-//            out.println(ed_msg.getText().toString());//点击按钮发送消息
-//            ed_msg.setText("");//清空编辑框
-//        }
-//    };
-//
-//
-//    /**
-//     * 读取服务器发来的信息，并通过Handler发给UI线程
-//     */
-//    Runnable runnable = new Runnable() {
-//        @Override
-//        public void run() {
-//            connection();// 连接到服务器
-//            try {
-//                while (true) {//死循环守护，监控服务器发来的消息
-//                    if (!socket.isClosed()) {//如果服务器没有关闭
-//                        if (socket.isConnected()) {//连接正常
-//                            if (!socket.isInputShutdown()) {//如果输入流没有断开
-//                                String getLine;
-//                                if ((getLine = in.readLine()) != null) {//读取接收的信息
-//                                    getLine += "\n";
-//                                    Message message = new Message();
-//                                    message.obj = getLine;
-//                                    mHandler.sendMessage(message);//通知UI更新
-//                                } else {
-//
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    };
-//}

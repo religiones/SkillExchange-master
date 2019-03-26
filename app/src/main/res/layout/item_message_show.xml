@@ -20,13 +20,14 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
 
+                android:src = "@drawable/woman2"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 />
 
             <LinearLayout
-                android:layout_width="280dp"
+                android:layout_width="260dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -35,7 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:fontFamily="casual"
-                    android:text="  Name:Daniel"
+                    android:text="peipei"
                     android:gravity="center_vertical|left"
                     android:textColor="#9C27B0"
                     android:textSize="18sp"
@@ -47,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     android:fontFamily="casual"
-                    android:text="  Want: Piano Singing Happiness"
+                    android:text="How are you doing?"
                     android:textColor="#9C27B0"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -64,7 +65,7 @@
                     android:layout_height="30dp"
                     android:fontFamily="casual"
                     android:text="9.53pm"
-                    android:gravity="center_vertical|right"
+                    android:gravity="center_vertical|left"
                     android:textColor="#9C27B0"
                     android:textSize="9sp"
                     android:textStyle="bold" />

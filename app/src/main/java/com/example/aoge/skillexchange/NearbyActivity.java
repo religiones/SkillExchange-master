@@ -38,6 +38,7 @@ public class NearbyActivity extends Fragment {
     private ListView NearbyShowView;
     private JSONArray jsonArray;
     private List<Map<String, Object>> list;
+    private TextView city;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,6 +50,10 @@ public class NearbyActivity extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         NearbyShowView = (ListView)getView().findViewById(R.id.nearby_ll_show);
+
+        city = (TextView)getView().findViewById(R.id.txt_n_city);
+        city.setText(UserInformation.loan);
+
         list = new ArrayList<Map<String, Object>>();
 
         new Thread(new Runnable() {

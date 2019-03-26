@@ -49,8 +49,20 @@ public class DetailActivity extends BaseActivity {
     public void Chat(View view){
         Intent intent = new Intent(getApplicationContext(), MsgActivity.class);
         // 放入需要传递的对象
-        intent.putExtra("key", user);
+        intent.putExtra("talktoemail", user.getEmail());
+        intent.putExtra("talktoname", user.getUserName());
         // 启动意图
         startActivity(intent);
+        finish();
+
+//        Bundle mBundle = new Bundle();
+//// 放入account对象
+//        mBundle.putSerializable("talkto", user);
+//        intent.putExtras(mBundle);
+//        startActivity(intent);
+//        finish();
+    }
+    public void detailBack(View view){
+        finish();
     }
 }
