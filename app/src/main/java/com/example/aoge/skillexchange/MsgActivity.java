@@ -55,8 +55,11 @@ public class MsgActivity extends BaseActivity {
     private Button send;
     private MsgAdapter adapter;
     private TextView Uname;
+    private String uname;
     private String email;
-    private String talkto = "happy";
+    private String talkto = UserInformation.userinformation;
+    private String Mark = "";
+    private String image = null;
 
 //    public  String HOST = "169.254.26.233";//服务器地址
 //    public  String HOST = "172.19.101.46";//服务器地址106.14.117.91
@@ -65,6 +68,7 @@ public class MsgActivity extends BaseActivity {
     public  Socket socket = null;
     public  BufferedReader in = null;
     public  PrintWriter out = null;
+
 
 
     private List<Msg> msgList = new ArrayList<Msg>();
@@ -76,12 +80,14 @@ public class MsgActivity extends BaseActivity {
         setContentView(R.layout.activity_msg);
         Uname = (TextView)findViewById(R.id.txt_msg_username);
 
-        UserInformation.ph = this.getFilesDir()+"/";
-        System.out.println(UserInformation.ph);
+//        UserInformation.ph = this.getFilesDir()+"/";
+//        System.out.println(UserInformation.ph);
 
         Intent intent = getIntent();
         talkto = (String) intent.getStringExtra("talktoemail");
-        Uname.setText((String) intent.getStringExtra("talktoname"));
+        uname = (String)intent.getStringExtra("talktoname");
+        Uname.setText(uname);
+        image = (String)intent.getStringExtra("talktoimage");
 
 
 
@@ -121,6 +127,7 @@ public class MsgActivity extends BaseActivity {
                             Msg msg = new Msg(content, Msg.TYPE_SENT,String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+
                                     String.valueOf(Calendar.getInstance().get(Calendar.MINUTE)),"Yes");
                             msgList.add(msg);
+
                             adapter.notifyDataSetChanged(); // 当有新消息时，刷新ListView中的显示
                             msgListView.setSelection(msgList.size()); // 将ListView定位到最后一行
 
@@ -151,8 +158,14 @@ public class MsgActivity extends BaseActivity {
     }
 
     private void initMsgs() {
-        String path = MsgActivity.this.getFilesDir()+"/1.txt";
-        File file = new File(path);
+//        String path = MsgActivity.this.getFilesDir()+"/1.txt";
+//        File file = new File(path);
+
+
+        String j = talkto.replace("@","").replace(".","");
+        System.out.println(UserInformation.ph+talkto.replace("@","").replace(".","")+".txt");
+          File file = new File(UserInformation.ph+talkto.replace("@",""));
+
 //        FileReader reader;
 //
 //        File file = new File(talkto);
@@ -171,7 +184,7 @@ public class MsgActivity extends BaseActivity {
 
             }else {
 
-                in = openFileInput(talkto);//文件名
+                in = openFileInput(talkto.replace("@","").replace(".",""));//文件名
 
                 reader = new BufferedReader(new InputStreamReader(in));
                 String line = "";
@@ -181,6 +194,7 @@ public class MsgActivity extends BaseActivity {
                     sp = line.split(",,,,,");
                     Msg msg = new Msg(sp[0], Integer.parseInt(sp[1]), sp[2], sp[3]);
                     msgList.add(msg);
+                    Mark = sp[0]+",,,,"+sp[2];
                 }
                 adapter.notifyDataSetChanged(); // 当有新消息时，刷新ListView中的显示
                 msgListView.setSelection(msgList.size());
@@ -230,16 +244,6 @@ public class MsgActivity extends BaseActivity {
 //        }
 
 
-//        Msg msg1 = new Msg("Hello guy.", Msg.TYPE_RECEIVED, String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+
-//                String.valueOf(Calendar.getInstance().get(Calendar.MINUTE)),"Yes");
-//        msgList.add(msg1);
-//        Msg msg2 = new Msg("Hello. Who is that?", Msg.TYPE_SENT,String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+
-//                String.valueOf(Calendar.getInstance().get(Calendar.MINUTE)),"Yes");
-//        msgList.add(msg2);
-//        Msg msg3 = new Msg("This is Tom. Nice talking to you. ",
-//                Msg.TYPE_RECEIVED,String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+
-//                String.valueOf(Calendar.getInstance().get(Calendar.MINUTE)),"Yes");
-//        msgList.add(msg3);
     }
 
 
@@ -250,8 +254,8 @@ public class MsgActivity extends BaseActivity {
         public void run() {
 
             out.println(UserInformation.userinformation+",,,,,"+UserInformation.userinformation+",,,,,"+inputText.getText().toString());
-//            System.out.println(params);
-//            System.out.println(outstring);
+            Mark = inputText.getText().toString()+",,,,"+String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+":"+
+                    String.valueOf(Calendar.getInstance().get(Calendar.MINUTE));
             inputText.setText(""); // 清空输入框中的内容
         }
     };
@@ -272,7 +276,6 @@ public class MsgActivity extends BaseActivity {
                             if (!socket.isInputShutdown()) {//如果输入流没有断开
                                 String getLine;
                                 if ((getLine = in.readLine()) != null) {//读取接收的信息
-                                    getLine += "\n";
                                     Message message = new Message();
                                     message.obj = getLine;
                                     mHandler.sendMessage(message);//通知UI更新
@@ -299,9 +302,10 @@ public class MsgActivity extends BaseActivity {
 //            System.out.println(msg.obj);
             String m = (String)msg.obj;
             String[]str = m.split(",,,,,");
-            Msg msgs = new Msg(str[2], Msg.TYPE_RECEIVED,String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+
+            Msg msgs = new Msg(str[2], Msg.TYPE_RECEIVED,String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+":"+
                     String.valueOf(Calendar.getInstance().get(Calendar.MINUTE)),"Yes");
             msgList.add(msgs);
+            Mark = str[2]+",,,,"+msgs.getTheTime();
             adapter.notifyDataSetChanged(); // 当有新消息时，刷新ListView中的显示
             msgListView.setSelection(msgList.size()); // 将ListView定位到最后一行
         }
@@ -349,15 +353,61 @@ public class MsgActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {//当返回按键被按下
             SaveToFile();
+            finish();
         }
         return false;
     }
 
     public void SaveToFile() {
+        String[]str = Mark.split(",,,,");
+
+
+
+
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("username",uname);
+        map.put("talkto",talkto);
+        map.put("image",image);
+        map.put("content",str[0]);
+        map.put("time",str[1]);
+        UserInformation.historyList.add(map);
+
+//        UserInformation.adapter.notifyDataSetChanged(); // 当有新消息时，刷新ListView中的显示
+
+
+//        FileOutputStream outt = null;
+//        BufferedWriter writer = null;
+//        try{
+//            outt = openFileOutput(UserInformation.ph+"history.txt", Context.MODE_PRIVATE);
+//            writer = new BufferedWriter(new OutputStreamWriter(outt));
+//
+//            String all="";
+//            for(int i=0;i<UserInformation.historyList.size();i++){
+//                all = UserInformation.historyList.get(i).get("talkto")+",,,,,"+UserInformation.historyList.get(i).get("image")+",,,,,"+UserInformation.historyList.get(i).get("content")+",,,,,"+UserInformation.historyList.get(i).get("time")+",,,,,"+UserInformation.historyList.get(i).get("username");
+//
+//                writer.write(all);
+//                writer.newLine();
+//            }
+//        }catch (IOException e){
+//            e.printStackTrace();
+//        }finally {
+//            try{
+//                if (writer !=null){
+//                    writer.close();
+//                }
+//            }catch (IOException e){
+//                e.printStackTrace();
+//            }
+//        }
+
+
+
+
         FileOutputStream outt = null;
         BufferedWriter writer = null;
         try{
-            outt = openFileOutput(talkto, Context.MODE_PRIVATE);
+            outt = openFileOutput(talkto.replace("@","").replace(".",""), Context.MODE_PRIVATE);
             writer = new BufferedWriter(new OutputStreamWriter(outt));
 
             String all="";

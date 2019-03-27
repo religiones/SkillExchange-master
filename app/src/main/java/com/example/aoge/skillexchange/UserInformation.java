@@ -1,9 +1,14 @@
 package com.example.aoge.skillexchange;
 
+import android.widget.SimpleAdapter;
+
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by dell on 2019/3/21.
@@ -21,6 +26,8 @@ public class UserInformation implements Serializable {
 
     public static int firstShow = 0;
 
+    public static SimpleAdapter adapter;
+
     public static String ph = null;
     public static String context = null;
 
@@ -29,6 +36,7 @@ public class UserInformation implements Serializable {
     public static Socket socket = null;
     public static BufferedReader in = null;
     public static PrintWriter out = null;
+    public static List<Map<String, Object>> historyList = new ArrayList<Map<String, Object>>();
 
     private String userName;
 

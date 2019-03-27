@@ -28,6 +28,8 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -44,6 +46,7 @@ public class MainActivity extends CheckPermissionsActivity {
     private MeActivity mefragment;
     private Fragment[] fragments;
     private int lastfragment;
+    public static MainActivity mActivity;
 
     private BottomNavigationView bottomNavigationView;
 
@@ -51,23 +54,25 @@ public class MainActivity extends CheckPermissionsActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mActivity = this;
         if(UserInformation.permission == -1) {
             Toast.makeText(getApplicationContext(),
                     "Sorry, this App can't work if you don't allow the required permission.", Toast.LENGTH_LONG)
                     .show();
         }else{
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    initFragment();
-                }
-            }).start();
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    initFragment();
+//                }
+//            }).start();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     initUserIfo();
                 }
             }).start();
+
         }
     }
 
@@ -181,6 +186,7 @@ public class MainActivity extends CheckPermissionsActivity {
                             UserInformation.uwant = jsonObject.getString("want");
                             UserInformation.loan = jsonObject.getString("location");
                             UserInformation.head = jsonObject.getString("headpicture");
+                            initFragment();
                         } catch (JSONException e) {
                             Log.e("TAG", e.getMessage(), e);
                         }
@@ -210,6 +216,7 @@ public class MainActivity extends CheckPermissionsActivity {
         //add the request to queue.
         requestQueue.add(request);
     }
+
 
 
 

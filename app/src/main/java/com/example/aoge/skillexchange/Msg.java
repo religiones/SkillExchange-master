@@ -19,6 +19,7 @@ public class Msg {
         this.rorn = rorn;
     }
 
+
     public String getContent() {
         return content;
     }

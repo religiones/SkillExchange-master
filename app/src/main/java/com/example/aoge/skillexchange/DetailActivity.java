@@ -51,6 +51,7 @@ public class DetailActivity extends BaseActivity {
         // 放入需要传递的对象
         intent.putExtra("talktoemail", user.getEmail());
         intent.putExtra("talktoname", user.getUserName());
+        intent.putExtra("talktoimage", user.getheadPicture());
         // 启动意图
         startActivity(intent);
         finish();

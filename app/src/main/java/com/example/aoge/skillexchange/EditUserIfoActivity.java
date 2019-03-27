@@ -146,6 +146,7 @@ public class EditUserIfoActivity extends BaseActivity {
                                         "Success!", Toast.LENGTH_LONG)
                                         .show();
                                 UserInformation.firstShow = 3;
+                                MainActivity.mActivity.finish();
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                 finish();
                             } else {
