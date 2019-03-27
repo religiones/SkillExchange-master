@@ -92,7 +92,7 @@ public class LaunchActivity extends BaseActivity {
         }
     }
     public void listhistory(Context context){
-        File file = new File(context.getFilesDir()+"/history.txt");
+        File file = new File(context.getFilesDir()+"/history");
 
 //        FileReader reader;
 //

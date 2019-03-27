@@ -361,51 +361,60 @@ public class MsgActivity extends BaseActivity {
     public void SaveToFile() {
         String[]str = Mark.split(",,,,");
 
+        int mk=0;
+        for(int i=0;i<UserInformation.historyList.size();i++){
+            if(UserInformation.historyList.get(i).get("talkto").equals(talkto)){
+                UserInformation.historyList.get(i).put("username",uname);
+                UserInformation.historyList.get(i).put("image",image);
+                UserInformation.historyList.get(i).put("content",str[0]);
+                UserInformation.historyList.get(i).put("time",str[1]);
+                mk = 1;
+            }
+        }
 
-
-
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("username",uname);
-        map.put("talkto",talkto);
-        map.put("image",image);
-        map.put("content",str[0]);
-        map.put("time",str[1]);
-        UserInformation.historyList.add(map);
-
-//        UserInformation.adapter.notifyDataSetChanged(); // 当有新消息时，刷新ListView中的显示
-
-
-//        FileOutputStream outt = null;
-//        BufferedWriter writer = null;
-//        try{
-//            outt = openFileOutput(UserInformation.ph+"history.txt", Context.MODE_PRIVATE);
-//            writer = new BufferedWriter(new OutputStreamWriter(outt));
-//
-//            String all="";
-//            for(int i=0;i<UserInformation.historyList.size();i++){
-//                all = UserInformation.historyList.get(i).get("talkto")+",,,,,"+UserInformation.historyList.get(i).get("image")+",,,,,"+UserInformation.historyList.get(i).get("content")+",,,,,"+UserInformation.historyList.get(i).get("time")+",,,,,"+UserInformation.historyList.get(i).get("username");
-//
-//                writer.write(all);
-//                writer.newLine();
-//            }
-//        }catch (IOException e){
-//            e.printStackTrace();
-//        }finally {
-//            try{
-//                if (writer !=null){
-//                    writer.close();
-//                }
-//            }catch (IOException e){
-//                e.printStackTrace();
-//            }
-//        }
-
+        if(mk==0){
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("username",uname);
+            map.put("talkto",talkto);
+            map.put("image",image);
+            map.put("content",str[0]);
+            map.put("time",str[1]);
+            UserInformation.historyList.add(0,map);
+        }
+        UserInformation.adapter.notifyDataSetChanged(); // 当有新消息时，刷新ListView中的显示
 
 
 
         FileOutputStream outt = null;
         BufferedWriter writer = null;
+        try{
+            outt = openFileOutput("history", Context.MODE_PRIVATE);
+            writer = new BufferedWriter(new OutputStreamWriter(outt));
+
+            String all="";
+            for(int i=0;i<UserInformation.historyList.size();i++){
+                all = UserInformation.historyList.get(i).get("talkto")+",,,,,"+UserInformation.historyList.get(i).get("image")+",,,,,"+UserInformation.historyList.get(i).get("content")+",,,,,"+UserInformation.historyList.get(i).get("time")+",,,,,"+UserInformation.historyList.get(i).get("username");
+
+                writer.write(all);
+                writer.newLine();
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally {
+            try{
+                if (writer !=null){
+                    writer.close();
+                }
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
+
+
+
+        outt = null;
+        writer = null;
         try{
             outt = openFileOutput(talkto.replace("@","").replace(".",""), Context.MODE_PRIVATE);
             writer = new BufferedWriter(new OutputStreamWriter(outt));
