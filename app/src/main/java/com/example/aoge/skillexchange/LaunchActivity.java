@@ -114,7 +114,7 @@ public class LaunchActivity extends BaseActivity {
                 String[] sp = null;
 
                 while ((line = reader.readLine()) != null) {
-                    sp = line.split(",,,,,");
+                    sp = line.split(",,,,");
                     Map<String, Object> map = new HashMap<String, Object>();
                     map.put("username",sp[0]);
                     map.put("talkto",sp[1]);

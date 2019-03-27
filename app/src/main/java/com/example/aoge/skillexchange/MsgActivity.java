@@ -393,7 +393,7 @@ public class MsgActivity extends BaseActivity {
 
             String all="";
             for(int i=0;i<UserInformation.historyList.size();i++){
-                all = UserInformation.historyList.get(i).get("talkto")+",,,,,"+UserInformation.historyList.get(i).get("image")+",,,,,"+UserInformation.historyList.get(i).get("content")+",,,,,"+UserInformation.historyList.get(i).get("time")+",,,,,"+UserInformation.historyList.get(i).get("username");
+                all = UserInformation.historyList.get(i).get("talkto")+",,,,"+UserInformation.historyList.get(i).get("image")+",,,,"+UserInformation.historyList.get(i).get("content")+",,,,"+UserInformation.historyList.get(i).get("time")+",,,,"+UserInformation.historyList.get(i).get("username");
 
                 writer.write(all);
                 writer.newLine();
