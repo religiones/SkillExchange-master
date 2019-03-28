@@ -253,7 +253,7 @@ public class MsgActivity extends BaseActivity {
         @Override
         public void run() {
 
-            out.println(UserInformation.userinformation+",,,,,"+UserInformation.userinformation+",,,,,"+inputText.getText().toString());
+            out.println(UserInformation.userinformation+",,,,,"+talkto+",,,,,"+inputText.getText().toString());
             Mark = inputText.getText().toString()+",,,,"+String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+":"+
                     String.valueOf(Calendar.getInstance().get(Calendar.MINUTE));
             inputText.setText(""); // 清空输入框中的内容
@@ -302,12 +302,19 @@ public class MsgActivity extends BaseActivity {
 //            System.out.println(msg.obj);
             String m = (String)msg.obj;
             String[]str = m.split(",,,,,");
-            Msg msgs = new Msg(str[2], Msg.TYPE_RECEIVED,String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+":"+
-                    String.valueOf(Calendar.getInstance().get(Calendar.MINUTE)),"Yes");
-            msgList.add(msgs);
-            Mark = str[2]+",,,,"+msgs.getTheTime();
-            adapter.notifyDataSetChanged(); // 当有新消息时，刷新ListView中的显示
-            msgListView.setSelection(msgList.size()); // 将ListView定位到最后一行
+            if(str[1].equals(UserInformation.userinformation)){
+                Toast.makeText(getApplicationContext(),
+                        "The user is not online, message sent failed!", Toast.LENGTH_LONG)
+                        .show();
+            }else{
+                Msg msgs = new Msg(str[2], Msg.TYPE_RECEIVED,String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))+":"+
+                        String.valueOf(Calendar.getInstance().get(Calendar.MINUTE)),"Yes");
+                msgList.add(msgs);
+                Mark = str[2]+",,,,"+msgs.getTheTime();
+                adapter.notifyDataSetChanged(); // 当有新消息时，刷新ListView中的显示
+                msgListView.setSelection(msgList.size()); // 将ListView定位到最后一行
+            }
+
         }
     };
 
@@ -409,8 +416,6 @@ public class MsgActivity extends BaseActivity {
                 e.printStackTrace();
             }
         }
-
-
 
 
         outt = null;
