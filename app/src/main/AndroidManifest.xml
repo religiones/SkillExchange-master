@@ -55,10 +55,13 @@
         <activity android:name=".NearbyActivity" />
         <activity android:name=".ChatActivity" />
         <activity android:name=".MeActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".LoginActivity"/>
+        <activity android:name=".RegisterActivity"/>
         <activity android:name=".FirstLoginActivity" >
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".OthersIfoActivity" />
         <activity android:name=".DetailActivity" />
@@ -66,12 +69,7 @@
 
         </activity>
         <activity android:name=".GetLocationActivity" />
-        <activity android:name=".LaunchActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity android:name=".LaunchActivity">
     </activity>
         <activity android:name=".EditUserIfoActivity" />
         <activity android:name=".ChooseHeadActivity">
